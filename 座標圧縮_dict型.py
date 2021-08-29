@@ -5,6 +5,19 @@ Created on Fri Jun  4 19:03:11 2021
 @author: kazuk
 """
 
+def CC(A: list) -> list:
+    "座標圧縮"
+    B = {j: i + 1 for i, j in enumerate(set(A))}
+    return B
+
+x = [2, 5, 1, 21, 312, 23, 21]
+ans = CC(x)
+print(ans)
+
+"""
+{1: 1, 2: 2, 5: 3, 21: 4, 23: 5, 312: 6}
+"""
+
 #辞書に初期値がない場合は、デフォルト値で初期化する
 #defaultdictでできたのは辞書型ではなくタプルindex[0]がキーでindex[1]がvalue
 from collections import defaultdict
@@ -14,6 +27,30 @@ data
 #defaultdict(<class 'int'>, {'a': 1})
 data['a'] += 1
 #defaultdict(<class 'int'>, {'a': 2})
+data[("y","x")] += 1
+#こんなのもいける
+#defaultdictはdictに変換しないと中身を取り出せないが、あるキーがあるかどうかはそのままでok
+
+
+#辞書オブジェクトに対してinを使うとキーの存在確認になる。存在しないことの確認にはnot inを使う。
+d = {'key1': 'val1', 'key2': 'val2', 'key3': 'val3'}
+
+print('key1' in d)
+# True
+
+print('val1' in d)
+# False
+
+print('key4' not in d)
+# True
+
+
+#辞書の値（value）の存在を確認、取得（検索）: in演算子, values()
+print('val1' in d.values())
+# True
+
+print('val4' not in d.values())
+# True
 
 
 #defaultdict => dict 
@@ -71,6 +108,7 @@ for k, v in sorted(dct.items(), key=lambda x: -x[0]):
 
 #value昇順ソート
 dct = {2: 3, 3: 4, 1: 2, 0: 8, 4: 2}
+dct = sorted(dct.items(), key=lambda x: x[1])
 for k, v in sorted(dct.items(), key=lambda x: x[1]):
     print(str(k) + ": " + str(v))
 
@@ -84,6 +122,7 @@ for k, v in sorted(dct.items(), key=lambda x: x[1]):
 
 #value降順ソート
 dct = {2: 3, 3: 4, 1: 2, 0: 8, 4: 2}
+dct = sorted(dct.items(), key=lambda x: -x[1])
 for k, v in sorted(dct.items(), key=lambda x: -x[1]):
     print(str(k) + ": " + str(v))
 
@@ -106,6 +145,28 @@ for key in d:
     prev = key
     
 print(d)
+
+#辞書の値（value）の最大値・最小値を取得
+max_v = max(d.values())
+print(max_v)
+# 100
+
+#辞書の値が最大・最小となるキーを取得
+max_k = max(d, key=d.get)
+print(max_k)
+# a
+
+min_k = min(d, key=d.get)
+print(min_k)
+# b
+
+#辞書の値が最大・最小となるキーと値を同時に取得
+max_kv = max(d.items(), key=lambda x: x[1])
+print(max_kv)
+# ('a', 100)
+
+print(type(max_kv))
+# <class 'tuple'>
 
 
 

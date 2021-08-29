@@ -8,6 +8,10 @@ Created on Fri May 14 03:13:59 2021
 # 強連結成分分解(SCC): グラフGに対するSCCを行う
 # 入力: <N>: 頂点サイズ, <G>: 順方向の有向グラフ, <RG>: 逆方向の有向グラフ
 # 出力: (<ラベル数>, <各頂点のラベル番号>)
+from sys import setrecursionlimit, stdin
+setrecursionlimit(10**7)
+input = stdin.readline
+
 def scc(N, G, RG):
     order = []
     used = [0]*N
@@ -49,6 +53,15 @@ def construct(N, G, label, group):
         GP[lbs].append(v)
     return G0, GP
 
+n, m = map(int, input().split())
+G = [[] for _ in range(n)]
+Gr = [[] for _ in range(n)]
+for _ in range(m):
+    a, b = map(int, input().split())
+    a -= 1
+    b -= 1
+    G[a].append(b)
+    Gr[b].append(a)
 
 #labelはグループの数
 #groupは各頂点をindexで示した時にどのグループに属するかを示すリスト
@@ -58,3 +71,12 @@ Gr = [[1, 3], [0], [1, 3, 1], [0]]
 
 label, group = scc(4, G, Gr)
 G0, GP = construct(4, G, label, group)
+
+
+def count_scc_elems(GP):
+    cnt = 0
+    for e in GP:
+        n = len(e)
+        if n == 0:continue
+        cnt += n*(n-1)//2
+    return cnt
